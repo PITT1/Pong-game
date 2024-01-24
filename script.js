@@ -57,3 +57,19 @@ const update = () => {
 }
 
 requestAnimationFrame(update);
+const pressButton = (e) => {
+    if (e.key == 'ArrowUp') {
+        player2.Y = player2.Y - 10;
+    }
+    if (e.key == 'ArrowDown') {
+        player2.Y = player2.Y + 10;
+    }
+
+    if (e.key == 's' || e.key == 'S') {
+        player1.Y = player1.Y - 10;
+    }
+    if (e.key == 'x' || e.key == 'X') {
+        player1.Y = player1.Y + 10;
+    }
+}
+document.addEventListener('keydown', pressButton);
