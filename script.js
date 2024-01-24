@@ -33,13 +33,17 @@ const ball = (X, Y, direction) => ({
     }
 })
 
-const colition = () => {
+const collision = () => {
     if(ballInstance.X == player2.X - player2.W) {
-        ballInstance.direction = 'left'
+        if (ballInstance.Y >= player2.Y && ballInstance.Y <= player2.Y + player2.H) {
+            ballInstance.direction = 'left';
+        }
     }
 
     if(ballInstance.X == player1.X + player1.W) {
-        ballInstance.direction = 'right'
+        if (ballInstance.Y >= player1.Y && ballInstance.Y <= player1.Y + player1.H) {
+            ballInstance.direction = 'right';
+        }
     }
 }
 
@@ -47,16 +51,16 @@ const player1 = palet(20, 100 ,'red');
 const player2 = palet(370, 100, 'blue');
 const ballInstance = ball(200, 120, 'right');
 
-const update = () => {
+const initGame = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ballInstance.draw();
     player1.draw();
     player2.draw();
-    colition();
-    requestAnimationFrame(update);
+    collision();
+    requestAnimationFrame(initGame);
 }
 
-requestAnimationFrame(update);
+requestAnimationFrame(initGame);
 const pressButton = (e) => {
     if (e.key == 'ArrowUp') {
         player2.Y = player2.Y - 10;
