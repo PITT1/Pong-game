@@ -35,13 +35,13 @@ const ball = (X, Y, direction) => ({
 
 const collision = () => {
     if(ballInstance.X == player2.X - player2.W) {
-        if (ballInstance.Y >= player2.Y && ballInstance.Y <= player2.Y + player2.H) {
+        if (ballInstance.Y >= player2.Y && ballInstance.Y <= player2.Y + player2.H -1) {
             ballInstance.direction = 'left';
         }
     }
 
     if(ballInstance.X == player1.X + player1.W) {
-        if (ballInstance.Y >= player1.Y && ballInstance.Y <= player1.Y + player1.H) {
+        if (ballInstance.Y >= player1.Y && ballInstance.Y <= player1.Y + player1.H -1) {
             ballInstance.direction = 'right';
         }
     }
