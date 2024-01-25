@@ -21,12 +21,46 @@ const ball = (X, Y, direction) => ({
     Y: Y,
     W: 10,
     H: 10,
+    reboundTop: false,
+    reboundBot: false, 
     direction: direction,
     draw() {
-        if (this.direction == 'right') {
+        // choca con la parte de arriba
+        if (this.Y == 0) {
+            this.reboundTop = true;
+        }
+        //choca con la parte de abajo
+        if (this.Y == 240) {
+            this.reboundBot = true;
+        }
+        //choca con la parte de arriba y va hacia la drecha
+        if (this.reboundTop == true && this.direction == 'right') {
             this.X = this.X + 2;
-        } else {
+            this.Y = this.Y + 1;
+        }
+        //choca con la parte de abajo y va hacia la derecha
+        if (this.reboundBot == true && this.direction == 'right') {
+            this.X = this.X + 2;
+            this.Y = this.Y - 1;
+        }
+        //choca con la parte de arriba y va hacia la izquierda
+        if (this.reboundTop == true && this.direction == 'left') {
             this.X = this.X - 2;
+            this.Y = this.Y + 1;
+        }
+        //choca con la parte de abajo y va hacia la izquierda
+        if (this.reboundBot == true && this.direction == 'left') {
+            this.X = this.X - 2;
+            this.Y = this.Y - 1;
+        }
+
+        if (this.direction == 'right' && this.reboundBot == false && this.reboundTop == false) {
+            this.X = this.X + 2;
+            this.Y = this.Y + 0;
+        } 
+        if (this.direction == 'left' && this.reboundBot == false && this.reboundTop == false) {
+            this.X = this.X - 2;
+            this.Y = this.Y - 0;
         }
         ctx.fillStyle = 'green';
         ctx.fillRect(this.X, this.Y, this.W, this.H);
@@ -37,12 +71,16 @@ const collision = () => {
     if(ballInstance.X == player2.X - player2.W) {
         if (ballInstance.Y >= player2.Y && ballInstance.Y <= player2.Y + player2.H -1) {
             ballInstance.direction = 'left';
+            ballInstance.reboundBot = false;
+            ballInstance.reboundTop = false;
         }
     }
 
     if(ballInstance.X == player1.X + player1.W) {
         if (ballInstance.Y >= player1.Y && ballInstance.Y <= player1.Y + player1.H -1) {
             ballInstance.direction = 'right';
+            ballInstance.reboundBot = false;
+            ballInstance.reboundTop = false;
         }
     }
 }
