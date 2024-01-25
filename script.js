@@ -4,11 +4,14 @@ canvas.height = 250;
 
 const ctx = canvas.getContext('2d');
 
+var player1Direction = 0;
+var player2Direction = 0;
+
 const palet = (X, Y, color) => ({
     X: X,
     Y: Y,
     H: 40,
-    W: 10,
+    W: 10, 
     color: color,
     draw() {
         ctx.fillStyle = this.color;
@@ -21,6 +24,7 @@ const ball = (X, Y, direction) => ({
     Y: Y,
     W: 10,
     H: 10,
+    launchDirec: 0,
     reboundTop: false,
     reboundBot: false, 
     direction: direction,
@@ -56,11 +60,11 @@ const ball = (X, Y, direction) => ({
 
         if (this.direction == 'right' && this.reboundBot == false && this.reboundTop == false) {
             this.X = this.X + 2;
-            this.Y = this.Y + 0;
+            this.Y = this.Y - this.launchDirec;
         } 
         if (this.direction == 'left' && this.reboundBot == false && this.reboundTop == false) {
             this.X = this.X - 2;
-            this.Y = this.Y - 0;
+            this.Y = this.Y + this.launchDirec;
         }
         ctx.fillStyle = 'green';
         ctx.fillRect(this.X, this.Y, this.W, this.H);
@@ -73,6 +77,7 @@ const collision = () => {
             ballInstance.direction = 'left';
             ballInstance.reboundBot = false;
             ballInstance.reboundTop = false;
+            ballInstance.launchDirec = player2Direction;
         }
     }
 
@@ -81,6 +86,7 @@ const collision = () => {
             ballInstance.direction = 'right';
             ballInstance.reboundBot = false;
             ballInstance.reboundTop = false;
+            ballInstance.launchDirec = player1Direction;
         }
     }
 }
@@ -102,16 +108,20 @@ requestAnimationFrame(initGame);
 const pressButton = (e) => {
     if (e.key == 'ArrowUp') {
         player2.Y = player2.Y - 10;
+        player2Direction = -1;
     }
     if (e.key == 'ArrowDown') {
         player2.Y = player2.Y + 10;
+        player2Direction = 1;
     }
 
     if (e.key == 's' || e.key == 'S') {
         player1.Y = player1.Y - 10;
+        player1Direction = 1;
     }
     if (e.key == 'x' || e.key == 'X') {
         player1.Y = player1.Y + 10;
+        player1Direction = -1;
     }
 }
 document.addEventListener('keydown', pressButton);
