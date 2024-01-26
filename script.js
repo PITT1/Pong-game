@@ -1,4 +1,6 @@
 const canvas = document.querySelector("canvas"); 
+const player1Dom = document.querySelector(".player1Score");
+const player2Dom = document.querySelector(".player2Score");
 canvas.width = 400;
 canvas.height = 250;
 
@@ -13,6 +15,8 @@ const palet = (X, Y, color) => ({
     H: 40,
     W: 10, 
     color: color,
+    score: 0,
+    winSet: false,
     draw() {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.X, this.Y, this.W, this.H);
@@ -91,6 +95,24 @@ const collision = () => {
     }
 }
 
+const restartGame = () => {
+    ballInstance.X = 200;
+    ballInstance.Y = 120;
+    ballInstance.launchDirec = 0;
+    player1Direction = 0;
+    player2Direction = 0;
+    ballInstance.reboundBot = false;
+    ballInstance.reboundTop = false;
+    if (player1.winSet == true) {
+        player1.winSet = false;
+        ballInstance.direction = 'right';
+    }
+    if (player2.winSet == true) {
+        player2.winSet = false;
+        ballInstance.direction = 'left';
+    }
+}
+
 const player1 = palet(20, 100 ,'red');
 const player2 = palet(370, 100, 'blue');
 const ballInstance = ball(200, 120, 'right');
@@ -101,6 +123,21 @@ const initGame = () => {
     player1.draw();
     player2.draw();
     collision();
+
+    if (ballInstance.X == 0) {
+        player2Dom.innerText = "";
+        player2.score += 1;
+        player2Dom.innerText = player2.score;
+        player2.winSet = true;
+        setTimeout(restartGame, 4000);
+    }
+    if (ballInstance.X == 400) {
+        player1Dom.innerText = "";
+        player1.score += 1; 
+        player1Dom.innerText = player1.score;
+        player1.winSet = true;
+        setTimeout(restartGame, 4000);
+    }
     requestAnimationFrame(initGame);
 }
 
