@@ -20,7 +20,8 @@ body {
 
 .canvas {
     background-color: aliceblue;
-    border: 5px solid black;
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
 }
 
 .container {
